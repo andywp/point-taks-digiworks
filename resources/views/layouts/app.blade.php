@@ -215,7 +215,7 @@
 	
 
 	<!-- logout -->
-	<form action="{{ route('logout') }}" id="logout-form" method="post">@csrf</form>
+	<form action="{{ route('user.logout') }}" id="logout-form" method="post">@csrf</form>
 	<!-- end lout out -->
     <script src="{{asset('assets/vendor/global/global.min.js')}}"></script>
 	<script src="{{asset('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
