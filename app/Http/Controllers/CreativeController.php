@@ -135,8 +135,10 @@ class CreativeController extends Controller
                     return Carbon::parse($row->tanggal)->translatedFormat('d F Y');
                 })
                 ->editColumn('task', function($row){
-                    $color=$row->masterTask->color;
-                    $style=!empty($color)?'style="background:'.$color.';"':'';
+                    /* $color=$row->masterTask->color;
+                    $style=!empty($color)?'style="background:'.$color.';"':''; */
+
+                    $style=!empty($row->masterTask->color)?'class="badge light '.$row->masterTask->color.'"':'';
 
                     return '<span '. $style.' >'.$row->task.'</span>';
                 })

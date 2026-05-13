@@ -123,9 +123,7 @@ class SummaryController extends Controller
                     return Carbon::parse($row->tanggal)->translatedFormat('d F Y');
                 })
                 ->editColumn('master_task.pekerjaan', function($row){
-                    //dd($row);
-                    $color=!empty($row->masterTask->color)?'style:"background:'.$row->masterTask->color.';"':'';
-
+                    $color=!empty($row->masterTask->color)?'class="badge light '.$row->masterTask->color.'"':'';
                     return '<span '.$color.' >'.$row->masterTask->pekerjaan.'</span>';
                 })
                 ->addColumn('action', function($row){  

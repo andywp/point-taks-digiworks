@@ -50,8 +50,28 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                         <label class="form-label">Color</label>
-                         <input type="text" name="color" class="as_colorpicker form-control  @error('color') is-invalid @enderror" value="{{ old('color', ($data->color != '' )?$data->color:'#fff') }}">
+                        <label class="form-label">Color</label>
+                        <select name="color" id="colorSelect" class="form-select @error('color') is-invalid @enderror">
+                            <option value="">No</option>
+                            <option value="badge-primary" {{ old('color',$data->color)== 'badge-primary' ? 'selected' : '' }}>Primary</option>
+                            <option value="badge-secondary" {{ old('color',$data->color)== 'badge-secondary' ? 'selected' : '' }}>Secondary</option>
+                            <option value="badge-success" {{ old('color',$data->color)== 'badge-success' ? 'selected' : '' }}>Success</option>
+                            <option value="badge-danger" {{ old('color',$data->color)== 'badge-danger' ? 'selected' : '' }}>Danger</option>
+                            <option value="badge-warning" {{ old('color',$data->color)== 'badge-warning' ? 'selected' : '' }}> Warning</option>
+                            <option value="badge-info" {{ old('color',$data->color)== 'badge-info' ? 'selected' : '' }}>Info</option>
+                            <option value="badge-light" {{ old('color',$data->color)== 'badge-light' ? 'selected' : '' }}>Dark</option>
+                        </select>
+                        <div class="mt-3">
+                            Preview :
+                            <span id="colorPreview" class="badge light px-3 py-2">
+                                Example Badge
+                            </span>
+                        </div>
+                        @error('color')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -81,6 +101,23 @@
 
 @endsection
 @section('scripts')
+<script>
+    $(function() {
+        const updatePreview = () => {
+            let color = $('#colorSelect').val();
 
+                $('#colorPreview')
+                .removeClass()
+                .addClass('badge light px-3 py-2 ' + color)
+                .text(color.charAt(0).toUpperCase() + color.slice(1));
 
+        }
+
+        updatePreview();
+
+        $('#colorSelect').on('change', function () {
+            updatePreview();
+        });
+    });
+</script>
 @endsection

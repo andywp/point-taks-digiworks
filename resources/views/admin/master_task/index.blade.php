@@ -23,11 +23,11 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Manage Brand</h4>
+                <h4 class="card-title mb-0">Manage Master Task</h4>
                 <div class="ms-auto">
                     <!-- <a href="#" class="btn btn-outline-primary btn-sm"><i class="fas fa-plus"></i> New Brand</a > -->
                     <button id="addNewBrand" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-plus"></i> New Brand
+                        <i class="fas fa-plus"></i> New Master Task
                     </button>
                 </div>
             </div>
@@ -94,8 +94,28 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                         <label class="form-label">Color</label>
-                         <input type="text" name="color" class="as_colorpicker form-control  @error('color') is-invalid @enderror" value="{{ old('color','#fff') }}">
+                        <label class="form-label">Color</label>
+                        <select name="color" id="colorSelect" class="form-select @error('color') is-invalid @enderror">
+                            <option value="">No</option>
+                            <option value="badge-primary" {{ old('color')== 'badge-primary' ? 'selected' : '' }}>Primary</option>
+                            <option value="badge-secondary" {{ old('color')== 'badge-secondary' ? 'selected' : '' }}>Secondary</option>
+                            <option value="badge-success" {{ old('color')== 'badge-success' ? 'selected' : '' }}>Success</option>
+                            <option value="badge-danger" {{ old('color')== 'badge-danger' ? 'selected' : '' }}>Danger</option>
+                            <option value="badge-warning" {{ old('color')== 'badge-warning' ? 'selected' : '' }}> Warning</option>
+                            <option value="badge-info" {{ old('color')== 'badge-info' ? 'selected' : '' }}>Info</option>
+                            <option value="badge-light" {{ old('color')== 'badge-light' ? 'selected' : '' }}>Dark</option>
+                        </select>
+                        <div class="mt-3">
+                            Preview :
+                            <span id="colorPreview" class="badge light px-3 py-2">
+                                Example Badge
+                            </span>
+                        </div>
+                        @error('color')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
             </div>
             <div class="modal-footer">
@@ -221,6 +241,23 @@
         $('#addNewBrand').on('click', function() {
             $('#exampleModal').modal('show');
             return false;
+        });
+
+
+        const updatePreview = () => {
+            let color = $('#colorSelect').val();
+
+                $('#colorPreview')
+                .removeClass()
+                .addClass('badge light px-3 py-2 ' + color)
+                .text(color.charAt(0).toUpperCase() + color.slice(1));
+
+        }
+
+        updatePreview();
+
+        $('#colorSelect').on('change', function () {
+            updatePreview();
         });
 
     });

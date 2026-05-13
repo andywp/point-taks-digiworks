@@ -58,7 +58,7 @@ class MasterTasksController extends Controller
             $datas=MasterTask::orderBy('id','DESC');
             return DataTables::of($datas)
                 ->editColumn('pekerjaan', function($row){  
-                    $style=!empty($row->color)?'style="background:'.$row->color.';"':'';
+                    $style=!empty($row->color)?'class="badge light '.$row->color.'"':'';
                     return '<span '.$style.'>'.$row->pekerjaan.'</span>';
                 })
                 ->addColumn('action', function($row){  
