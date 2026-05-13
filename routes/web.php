@@ -17,7 +17,7 @@ Auth::routes([
 
     Route::post('/login',[App\Http\Controllers\Auth\LoginController::class,'check'])->name('login_check');
     Route::post('user-logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('user.logout');
-    Route::get('user-logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('user.logout');
+    Route::get('user-logout-get', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('user.logout');
 //});
 
  //Route::get('porting', [App\Http\Controllers\PortingController::class, 'index'])->name('porting');
