@@ -29,31 +29,45 @@ class CreativeController extends Controller
 
     public function store(Request $request){
         $admin_id=auth('admin')->user()->id;
+        //dd($request->all());
         //dd($admin_id);
-        $request->validate([
+       /*  $request->validate([
             'brand'=> 'required',
             'pekerjaan'=> 'required',
             'tanggal'=> 'required',
             'output' => 'required|numeric|min:1',
-        ]);
+        ]); */
 
+        $brand = $request->brand;
+        $pekerjaan = $request->pekerjaan;
+        $tanggal = $request->tanggal;
+        $output = $request->output;
+        $note = $request->note;
         $admin_id=auth('admin')->user()->id;
 
-        $perSepuluhMenit=MasterTask::where('id',$request->pekerjaan)->value('point_per_10');
-        $pointMaster=(float) $perSepuluhMenit;
-        //dd((float) $perSepuluhMenit);
-        $point=$pointMaster * $request->output;
+        foreach ($brand as $i => $value) {
 
-        $task=MasterTask::where('id',$request->pekerjaan)->value('pekerjaan');
-        TaskPoint::create([
-            'admin_id' =>  $admin_id,
-            'brand_id' =>  $request->brand,
-            'master_tasks_id' =>  $request->pekerjaan,
-            'task' =>  $task,
-            'tanggal' =>  $request->tanggal,
-            'output' =>  $request->output,
-            'point' =>  $point,
-        ]);
+            $masterPekerjaanId=$pekerjaan[$i];
+            $perSepuluhMenit=MasterTask::where('id',$masterPekerjaanId)->value('point_per_10');
+            $pointMaster=(float) $perSepuluhMenit;
+            //dd((float) $perSepuluhMenit);
+            $point=$pointMaster * $output[$i];
+
+            $task=MasterTask::where('id',$masterPekerjaanId)->value('pekerjaan');
+            TaskPoint::create([
+                'admin_id' =>  $admin_id,
+                'brand_id' =>  $brand[$i],
+                'master_tasks_id' => $masterPekerjaanId,
+                'task' =>  $task,
+                'tanggal' =>  $tanggal[$i],
+                'output' =>  $output[$i],
+                'point' =>  $point,
+                'note' =>  $note[$i],
+            ]);
+        }
+
+
+        
         return redirect()->back()->with('success','Successfully added task');
     }
 
@@ -94,6 +108,7 @@ class CreativeController extends Controller
             'tanggal' =>  $request->tanggal,
             'output' =>  $request->output,
             'point' =>  $point,
+            'note' =>   $request->note,
         ]);
 
          return redirect()->back()->with('success','Successfully Update task');
@@ -107,7 +122,7 @@ class CreativeController extends Controller
             $start = Carbon::createFromFormat('d/m/Y', trim($date[0]))->format('Y-m-d');
             $end   = Carbon::createFromFormat('d/m/Y', trim($date[1]))->format('Y-m-d');
 
-            $datas=TaskPoint::with('brand')->where('admin_id', $admin_id)->whereBetween('tanggal',[$start, $end])->orderBy('tanggal','DESC')->orderby('id','DESC');
+            $datas=TaskPoint::with(['brand','masterTask'])->where('admin_id', $admin_id)->whereBetween('tanggal',[$start, $end])->orderBy('tanggal','DESC')->orderby('id','DESC');
             if($request->task !=''){
                 $datas->where('master_tasks_id',$request->task);
             }
@@ -118,6 +133,12 @@ class CreativeController extends Controller
             return DataTables::of($datas)
                 ->editColumn('tanggal', function($row){
                     return Carbon::parse($row->tanggal)->translatedFormat('d F Y');
+                })
+                ->editColumn('task', function($row){
+                    $color=$row->masterTask->color;
+                    $style=!empty($color)?'style="background:'.$color.';"':'';
+
+                    return '<span '. $style.' >'.$row->task.'</span>';
                 })
                 ->addColumn('brand', function($row){
                     return $row->brand->brand ?? '-';
@@ -135,7 +156,7 @@ class CreativeController extends Controller
                             ';
                     return $btn;
                 })
-                ->rawColumns(['action']) 
+                ->rawColumns(['action','task']) 
                 ->escapeColumns() 
                 ->toJson();
         

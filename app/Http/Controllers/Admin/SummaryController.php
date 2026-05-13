@@ -122,6 +122,12 @@ class SummaryController extends Controller
                 ->editColumn('tanggal', function($row){
                     return Carbon::parse($row->tanggal)->translatedFormat('d F Y');
                 })
+                ->editColumn('master_task.pekerjaan', function($row){
+                    //dd($row);
+                    $color=!empty($row->masterTask->color)?'style:"background:'.$row->masterTask->color.';"':'';
+
+                    return '<span '.$color.' >'.$row->masterTask->pekerjaan.'</span>';
+                })
                 ->addColumn('action', function($row){  
                     //dd($row);
                     $btn = '
@@ -137,7 +143,7 @@ class SummaryController extends Controller
                     return $btn;
                 })
                
-                ->rawColumns(['action']) 
+                ->rawColumns(['action','master_task.pekerjaan']) 
                 ->escapeColumns() 
                 ->toJson();
 

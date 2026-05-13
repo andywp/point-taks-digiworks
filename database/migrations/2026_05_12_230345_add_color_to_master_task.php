@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('task_points', function (Blueprint $table) {
-            $table->text('note')->nullable()->after('point');
+        Schema::table('master_tasks', function (Blueprint $table) {
+            $table->string('color')->nullable()->after('point_per_10');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('task_points', function (Blueprint $table) {
-            $table->dropColumn('note');
+        Schema::table('master_tasks', function (Blueprint $table) {
+            $table->dropColumn('color');
         });
     }
 };

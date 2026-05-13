@@ -49,6 +49,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                         <label class="form-label">Color</label>
+                         <input type="text" name="color" class="as_colorpicker form-control  @error('color') is-invalid @enderror" value="{{ old('color', ($data->color != '' )?$data->color:'#fff') }}">
+                    </div>
                 </div>
             </div>
         </div>

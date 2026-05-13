@@ -66,6 +66,13 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Note</label>
+                        <textarea name="note"  class="form-control form-control-sm @error('note') is-invalid @enderror">{{ old('note',$data->note) }}</textarea>
+                        @error('note')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
                     <div class="mt-3">
                         @csrf

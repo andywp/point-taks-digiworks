@@ -27,6 +27,7 @@ class MasterTasksController extends Controller
         $input['point_type']=$request->point_type;
         $input['per_hari']=0;
         $input['per_bulan']=0;
+        $input['color']=$request->color;
         if($request->point_type == 0){
             $input['per_hari']=$request->point;
             $menit_per_output=$this->potinHarian($request->point);
@@ -56,6 +57,10 @@ class MasterTasksController extends Controller
         if($request->ajax()) {
             $datas=MasterTask::orderBy('id','DESC');
             return DataTables::of($datas)
+                ->editColumn('pekerjaan', function($row){  
+                    $style=!empty($row->color)?'style="background:'.$row->color.';"':'';
+                    return '<span '.$style.'>'.$row->pekerjaan.'</span>';
+                })
                 ->addColumn('action', function($row){  
                     $btn = '
                             <form id="fd'.$row->id.'" action="'.route('admin.master_task.destroy',$row->id).'" method="POST">
@@ -70,7 +75,7 @@ class MasterTasksController extends Controller
                     return $btn;
                 })
                
-                ->rawColumns(['action']) 
+                ->rawColumns(['action','pekerjaan']) 
                 ->escapeColumns() 
                 ->toJson();
         
@@ -105,6 +110,7 @@ class MasterTasksController extends Controller
         $input['point_type']=$request->point_type;
         $input['per_hari']=0;
         $input['per_bulan']=0;
+        $input['color']=$request->color;
         if($request->point_type == 0){
             $input['per_hari']=$request->point;
             $menit_per_output=$this->potinHarian($request->point);
