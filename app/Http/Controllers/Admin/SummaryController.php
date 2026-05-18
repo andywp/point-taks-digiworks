@@ -55,7 +55,7 @@ class SummaryController extends Controller
             } */
            
             $total_poin=$point_teknis + $point_manajerial;
-
+            
             $total_over_point=0;
             if($total_poin > 1044){
                 $total_over_point = $total_poin - 1044;
@@ -75,7 +75,7 @@ class SummaryController extends Controller
                 'point_manajerial' => $point_manajerial,
                 'total_poin' => $total_poin,
                 'total_over_point' => $total_over_point,
-                'take_home_pay' => setRupiah(round($take_home_pay))
+                'take_home_pay' => setRupiah(($take_home_pay))
             ];
             
         }
@@ -231,21 +231,33 @@ class SummaryController extends Controller
             $point_manajerial=Manajerial::where('brand_id',$r->id)->whereBetween('tanggal',[$start, $end])->sum('poin');
             $total_point=$point_teknis + $point_manajerial;
 
-            $value_point=$total_point * ($total_gaji / $total_point_devisi);
-            $value_point=round($value_point);
-            $data[]=[
-                'id' => $r->id,
-                'devisi' => 'Creative',
-                'brand' => $r->brand,
-                'point_teknis' => $point_teknis,
-                'point_manajerial' => $point_manajerial,
-                'point_total' => $total_point,
-                'value_point' => setRupiah($value_point),
-            ];
+            if( $total_point > 0){
+                $value_point=$total_point * ($total_gaji / $total_point_devisi);
+                //$value_point=round($value_point);
+                $data[]=[
+                    'id' => $r->id,
+                    'devisi' => 'Creative',
+                    'brand' => $r->brand,
+                    'point_teknis' => $point_teknis,
+                    'point_manajerial' => $point_manajerial,
+                    'point_total' => $total_point,
+                    'value_point' => setRupiah($value_point),
+                // 'value_point' => $value_point,
+                ];
+            }
         }
 
         $data=collect($data);
         return DataTables::of($data)->make(true);
+    }
+    
+    public function cekGaji(){
+        $start='2026-03-01';
+        $end='2026-03-31';
+
+        $data=$this->getGajiDevisi($start,$end);
+        dd($data);
+
     }
 
 

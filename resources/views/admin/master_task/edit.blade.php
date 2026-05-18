@@ -43,7 +43,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Point</label>
+                        <label class="form-label">Menit</label>
                         <input type="number" name="point" class="form-control form-control-sm @error('point') is-invalid @enderror" value="{{ old('point', ($data->point_type ==0)?$data->per_hari:$data->per_bulan) }}">
                         @error('point')
                         <div class="invalid-feedback">{{ $message }}</div>

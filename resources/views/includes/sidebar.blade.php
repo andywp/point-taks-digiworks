@@ -35,10 +35,10 @@
                     <span class="nav-text">Summary</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.summary.index') }}">Report</a></li>
-                    <li><a href="{{ route('admin.summary.user') }}">User</a></li>
+                    <li><a href="{{ route('admin.summary.index') }}">Report User</a></li>
                     <li><a href="{{ route('admin.summary.brand') }}">Brand</a></li>
-                    <li><a href="{{ route('admin.summary.manajerial') }}">Manajerial</a></li>
+                    <li><a href="{{ route('admin.summary.user') }}">Detail Teknis</a></li>
+                    <li><a href="{{ route('admin.summary.manajerial') }}">Detail Manajerial</a></li>
                 </ul>
             </li>
             <!-- <li>

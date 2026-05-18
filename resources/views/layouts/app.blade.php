@@ -7,7 +7,7 @@
 	<meta name="author" content="digiworks.id">
 	<meta name="generator" content="digiworks">
     <meta name="developer" content="digiworks">
-
+	<title>@hasSection('header_title') @yield('header_title')  @else Dashboard @endif</title>
     {!! Meta::tag('title') !!}
     {!! Meta::tag('description') !!}
 

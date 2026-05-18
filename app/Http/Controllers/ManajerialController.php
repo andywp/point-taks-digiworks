@@ -13,12 +13,12 @@ use Illuminate\Support\Carbon;
 class ManajerialController extends Controller
 {
     public function index(){
-        $brand=Brand::orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
         return view('creative.manajerial.index',compact('brand'));
     }
 
     public function create(){
-        $brand=Brand::orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
         //dd($master);
         return view('creative.manajerial.create',compact('brand'));
     }

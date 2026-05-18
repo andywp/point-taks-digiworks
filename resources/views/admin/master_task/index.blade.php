@@ -38,10 +38,10 @@
                             <tr>
                                 <th>#</th>
                                 <th>Pekerjaan</th>
-                                <th>Per hari</th>
-                                <th>Per Bulan</th>
-                                <th>Menit Per Output</th>
-                                <th>Menit / 10 Menit</th>
+                               <!--  <th>Per hari</th>
+                                <th>Per Bulan</th> -->
+                                <th>Output</th>
+                                <th>Point / Output</th>
                             </tr>
                         </thead>
                     </table>
@@ -87,7 +87,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Point</label>
+                        <label class="form-label">Menit</label>
                         <input type="number" name="point" class="form-control form-control-sm @error('point') is-invalid @enderror" value="{{ old('point') }}">
                         @error('point')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -178,7 +178,7 @@
                     name: 'pekerjaan',
                     width: "50%"
                 },
-                {
+               /*  {
                     data : 'per_hari',
                     name: 'per_hari',
                     width: "50px"
@@ -187,7 +187,7 @@
                     data : 'per_bulan',
                     name: 'per_bulan',
                     width: "50px"
-                },
+                }, */
                 {
                     data : 'menit_per_output',
                     name: 'menit_per_output',

@@ -53,7 +53,7 @@ Route::prefix('dw-admin')
           Route::get('manajerial', [App\Http\Controllers\Admin\SummaryController::class, 'manajerial'])->name('manajerial');
           Route::post('manajerial_data', [App\Http\Controllers\Admin\SummaryController::class, 'manajerial_data'])->name('manajerial_data');
 
-          Route::get('cekgaji', [App\Http\Controllers\Admin\SummaryController::class, 'getGajiDevisi'])->name('getGajiDevisi');
+          Route::get('cekgaji', [App\Http\Controllers\Admin\SummaryController::class, 'cekGaji'])->name('getGajiDevisi');
         });
 
        

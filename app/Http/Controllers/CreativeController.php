@@ -15,14 +15,14 @@ class CreativeController extends Controller
 {
     public function index(){
 
-        $brand=Brand::orderBy('brand','ASC')->get();
-        $master=MasterTask::orderBy('pekerjaan','asc')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $master=MasterTask::where('status',1)->orderBy('pekerjaan','asc')->get();
         return view('creative.task.index',compact('master','brand'));
     }
 
     public function create(){
-        $brand=Brand::orderBy('brand','ASC')->get();
-        $master=MasterTask::orderBy('pekerjaan','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $master=MasterTask::where('status',1)->orderBy('pekerjaan','ASC')->get();
         //dd($master);
         return view('creative.task.create',compact('brand','master'));
     }
@@ -79,8 +79,8 @@ class CreativeController extends Controller
             return abort(404);
         }
         //dd($data);
-        $brand=Brand::orderBy('brand','ASC')->get();
-        $master=MasterTask::orderBy('pekerjaan','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $master=MasterTask::where('status',1)->orderBy('pekerjaan','ASC')->get();
         //dd($master);
         return view('creative.task.edit',compact('data','brand','master'));
 

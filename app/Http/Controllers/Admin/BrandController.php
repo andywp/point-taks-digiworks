@@ -35,7 +35,7 @@ class BrandController extends Controller
 
     public function data(Request $request){
         if($request->ajax()) {
-            $datas=Brand::orderBy('id','DESC');
+            $datas=Brand::where('status',1)->orderBy('id','DESC');
             return DataTables::of($datas)
                 ->addColumn('action', function($row){  
                     $btn = '
@@ -111,7 +111,16 @@ class BrandController extends Controller
 
     public function destroy($id){
         $id=(int) $id;
-        Brand::find($id)->delete();
+        //$cek=0;
+        $cekPointTeknis=\App\Models\TaskPoint::where('brand_id',$id)->count();
+        $cekManejerial=\App\Models\Manajerial::where('brand_id',$id)->count();
+
+        $count= $cekPointTeknis + $cekManejerial;
+        if($count > 0){
+            Brand::find($id)->update(['status' => 3]);
+        }else{
+            Brand::find($id)->delete();
+        }
         return redirect()->route('admin.brand.index')->with('success','Successfully Delete brand data');
     }
 

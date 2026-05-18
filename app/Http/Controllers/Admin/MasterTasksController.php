@@ -129,7 +129,15 @@ class MasterTasksController extends Controller
 
     public function destroy($id){
         $id=(int) $id;
-        MasterTask::find($id)->delete();
+        $cekPointTeknis=\App\Models\TaskPoint::where('master_tasks_id',$id)->count();
+        //$cekManejerial=\App\Models\Manajerial::where('brand_id',$id)->count();
+        //$count= $cekPointTeknis + $cekManejerial;
+        if($cekPointTeknis > 0){
+            MasterTask::find($id)->update(['status'=>3]);
+        }else{
+            MasterTask::find($id)->delete();
+        }
+       
         return redirect()->back()->with('success','Successfully Delete');
     }
 
