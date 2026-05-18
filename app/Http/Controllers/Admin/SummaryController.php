@@ -75,7 +75,7 @@ class SummaryController extends Controller
                 'point_manajerial' => $point_manajerial,
                 'total_poin' => $total_poin,
                 'total_over_point' => $total_over_point,
-                'take_home_pay' => setRupiah(($take_home_pay))
+                'take_home_pay' => setRupiah($take_home_pay,2)
             ];
             
         }
@@ -241,7 +241,7 @@ class SummaryController extends Controller
                     'point_teknis' => $point_teknis,
                     'point_manajerial' => $point_manajerial,
                     'point_total' => $total_point,
-                    'value_point' => setRupiah($value_point),
+                    'value_point' => setRupiah($value_point,2),
                 // 'value_point' => $value_point,
                 ];
             }

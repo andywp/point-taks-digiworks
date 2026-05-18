@@ -66,9 +66,9 @@ function assetVersion()
 }
 
 
-function setRupiah( $price){
+function setRupiah($price,$desimal=0){
 
-    return  @number_format((int) $price,0,',','.');
+    return  @number_format($price,$desimal,',','.');
 }
 
 
