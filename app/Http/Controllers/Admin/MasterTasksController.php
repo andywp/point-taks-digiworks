@@ -25,10 +25,14 @@ class MasterTasksController extends Controller
         $input=array();
         $input['pekerjaan']=$request->pekerjaan;
         $input['point_type']=$request->point_type;
-        $input['per_hari']=0;
+        $input['per_hari']=$request->point;
         $input['per_bulan']=0;
         $input['color']=$request->color;
-        if($request->point_type == 0){
+
+        $point_per_10=0.1 * $request->point;
+
+        $input['point_per_10']=$point_per_10;
+        /* if($request->point_type == 0){
             $input['per_hari']=$request->point;
             $menit_per_output=$this->potinHarian($request->point);
             $input['menit_per_output']= $menit_per_output;
@@ -38,7 +42,7 @@ class MasterTasksController extends Controller
             $menit_per_output=$this->pointBulanan($request->point);
             $input['menit_per_output']= $menit_per_output;
             $input['point_per_10']= round($menit_per_output / 10 ,1);
-        }
+        } */
 
         MasterTask::create($input);
         return redirect()->back()->with('success','Successfully added');
@@ -111,10 +115,12 @@ class MasterTasksController extends Controller
         $input=array();
         $input['pekerjaan']=$request->pekerjaan;
         $input['point_type']=$request->point_type;
-        $input['per_hari']=0;
+        $input['per_hari']=$request->point;
         $input['per_bulan']=0;
         $input['color']=$request->color;
-        if($request->point_type == 0){
+        $point_per_10=0.1 * $request->point;
+        $input['point_per_10']=$point_per_10;
+        /* if($request->point_type == 0){
             $input['per_hari']=$request->point;
             $menit_per_output=$this->potinHarian($request->point);
             $input['menit_per_output']= $menit_per_output;
@@ -124,7 +130,7 @@ class MasterTasksController extends Controller
             $menit_per_output=$this->pointBulanan($request->point);
             $input['menit_per_output']= $menit_per_output;
             $input['point_per_10']= round($menit_per_output / 10 ,1);
-        }
+        } */
 
         MasterTask::find($id)->update($input);
         return redirect()->back()->with('success','Successfully update data');
@@ -146,33 +152,40 @@ class MasterTasksController extends Controller
 
 
     public function porting(){
-       /* $data=DB::table('master')->get();
+        $data=MasterTask::get();
         //dd($data);
 
+
+
         foreach($data as $request){
-            $input=array();
+             $input=array();
             $input['pekerjaan']=$request->pekerjaan;
             $input['point_type']=$request->point_type;
-            $input['per_hari']=0;
+            $input['per_hari']=($request->point_type == 0)?(int)$request->per_hari:(int)$request->per_bulan;
             $input['per_bulan']=0;
-            if($request->point_type == 0){
-                $input['per_hari']=$request->per_hari;
-                $menit_per_output=$this->potinHarian($request->per_hari);
+            $input['color']=$request->color;
+            $per_hari=($request->point_type == 0)?(int)$request->per_hari:(int)$request->per_bulan;
+            $point_per_10=0.1 * $per_hari;
+
+            $input['point_per_10']=$point_per_10;
+            /* if($request->point_type == 0){
+                $input['per_hari']=$request->point;
+                $menit_per_output=$this->potinHarian($request->point);
                 $input['menit_per_output']= $menit_per_output;
                 $input['point_per_10']= round($menit_per_output / 10 ,1);
             }else{
-                $input['per_bulan']=$request->per_bulan;
-                $menit_per_output=$this->pointBulanan($request->per_bulan);
+                $input['per_bulan']=$request->point;
+                $menit_per_output=$this->pointBulanan($request->point);
                 $input['menit_per_output']= $menit_per_output;
                 $input['point_per_10']= round($menit_per_output / 10 ,1);
-            }
-
-           MasterTask::create($input);
+            } */
+            //dd($input);
+            MasterTask::find($request->id)->update($input);
 
         }
 
 
-        dd('OK'); */
+        dd('OK');
     }
 
 

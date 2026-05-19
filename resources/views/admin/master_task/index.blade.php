@@ -76,7 +76,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label">Type Nilai</label>
                         <select name="point_type" class="form-control form-control-sm @error('point_type') is-invalid @enderror">
                             <option value="0" {{ (old('pekerjaan') == 0 )?'selected':'' }} >Harian</option>
@@ -85,7 +85,8 @@
                         @error('point')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> -->
+                    <input type="hidden" name="point_type" value="0">
                     <div class="mb-3">
                         <label class="form-label">Menit</label>
                         <input type="number" name="point" class="form-control form-control-sm @error('point') is-invalid @enderror" value="{{ old('point') }}">
