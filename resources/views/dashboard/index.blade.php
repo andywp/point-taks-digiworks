@@ -81,7 +81,7 @@
     (function($) {
 
         var data = @json($data);
-        console.log(data.pointMajarerial);
+        //console.log(data.pointMajarerial);
 
 
 
@@ -106,7 +106,7 @@
 			],
 				chart: {
 				type: 'bar',
-				height: 230,
+				height: 400,
 				
 				toolbar: {
 					show: false,
@@ -179,6 +179,54 @@
 				axisBorder : {
 					show : false
 				},
+			},
+			annotations: {
+				yaxis: [
+					{
+						y: 261,
+						borderColor: '#f72b50',
+						label: {
+							text: 'Minggu 1 261 point',
+							style: {
+								background: '#f72b50',
+								color: '#fff'
+							}
+						}
+					},
+					{
+						y: 522,
+						borderColor: '#f72b50',
+						label: {
+							text: 'Minggu 2 522 point',
+							style: {
+								background: '#f72b50',
+								color: '#fff'
+							}
+						}
+					},
+					{
+						y: 783,
+						borderColor: '#f72b50',
+						label: {
+							text: 'Minggu 3 783 point',
+							style: {
+								background: '#f72b50',
+								color: '#fff'
+							}
+						}
+					},
+					{
+						y: 1044,
+						borderColor: '#f72b50',
+						label: {
+							text: 'Minggu 3 1044 point',
+							style: {
+								background: '#f72b50',
+								color: '#fff'
+							}
+						}
+					},
+				]
 			},
 			yaxis:{
 				labels: {
