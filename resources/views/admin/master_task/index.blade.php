@@ -189,8 +189,8 @@
                     width: "50px"
                 }, */
                 {
-                    data : 'menit_per_output',
-                    name: 'menit_per_output',
+                    data : 'point',
+                    name: 'point',
                     width: "50px"
                 },
                 {

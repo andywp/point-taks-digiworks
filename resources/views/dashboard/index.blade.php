@@ -83,7 +83,8 @@
         var data = @json($data);
         //console.log(data.pointMajarerial);
 
-
+		let maxData = Math.max(...data.total_point);
+		//console.log(maxData,'aaa');
 
         var chartBar = function(){
 		
@@ -104,7 +105,7 @@
 				}
 				
 			],
-				chart: {
+			chart: {
 				type: 'bar',
 				height: 400,
 				
@@ -229,6 +230,8 @@
 				]
 			},
 			yaxis:{
+				min: 0,
+				max: maxData < 1500 ? 1500 : maxData,
 				labels: {
 				   style: {
 					  colors: '#787878',

@@ -55,11 +55,14 @@ class MasterTasksController extends Controller
 
     public function data(Request $request){
         if($request->ajax()) {
-            $datas=MasterTask::orderBy('id','DESC');
+            $datas=MasterTask::where('status',1)->orderBy('id','DESC');
             return DataTables::of($datas)
                 ->editColumn('pekerjaan', function($row){  
                     $style=!empty($row->color)?'class="badge light '.$row->color.'"':'';
                     return '<span '.$style.'>'.$row->pekerjaan.'</span>';
+                })
+                ->addColumn('point', function($row){  
+                    return ($row->point_type == 0)?$row->per_hari:$row->per_bulan;
                 })
                 ->addColumn('action', function($row){  
                     $btn = '
