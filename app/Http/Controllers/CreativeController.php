@@ -170,4 +170,17 @@ class CreativeController extends Controller
         return redirect()->back()->with('success','Successfully Delete');
     }
 
+    public function syncTask(){
+        $data=TaskPoint::get();
+        foreach($data as $r){
+            $pointMaster=MasterTask::where('id',$r->master_tasks_id)->value('point_per_10');
+            //dd($r, $pointMaster);
+            $point=$pointMaster * $r->output;
+            TaskPoint::where('id',$r->id)->update(['point' => $point ]);
+        }
+
+        dd($data);
+
+    }
+
 }

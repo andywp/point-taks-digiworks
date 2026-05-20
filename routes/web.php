@@ -26,3 +26,4 @@ Auth::routes([
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('porting',[App\Http\Controllers\Admin\MasterTasksController::class,'porting'])->name('porting');
+Route::get('syncTask',[App\Http\Controllers\CreativeController::class,'syncTask'])->name('syncPointTaak');
