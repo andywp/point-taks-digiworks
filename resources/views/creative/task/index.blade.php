@@ -431,10 +431,23 @@
             return true;
         });
 
+        const AutoScrol = () => {
+            setTimeout(() => {
+                let modalBody = $('.modal-body');
+                let lastRow = $('#taskWrapper .task-item').last();
+                if (lastRow.length) {
+                    modalBody.animate({
+                        scrollTop: lastRow[0].offsetTop
+                    }, 300);
+                }
+            }, 100);
+        }
+
        
         //addNewTask
         $('#addNewTask').on('click', function() {
             $('#modaAddNewTask').modal('show');
+            AutoScrol();
             return false;
         });
         //btnBack
@@ -616,17 +629,7 @@
 
         }
 
-        const AutoScrol = () => {
-            setTimeout(() => {
-                let modalBody = $('.modal-body');
-                let lastRow = $('#taskWrapper .task-item').last();
-                if (lastRow.length) {
-                    modalBody.animate({
-                        scrollTop: lastRow[0].offsetTop
-                    }, 300);
-                }
-            }, 100);
-        }
+        
 
 
         //initSelect2();
