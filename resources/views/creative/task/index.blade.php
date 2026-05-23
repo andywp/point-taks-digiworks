@@ -29,6 +29,10 @@
     .select2-selection.is-valid {
         border: 1px solid #198754 !important;
     }
+    .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
 </style>
 @endsection
 @section('content')
@@ -133,7 +137,7 @@
 
 <!-- modal add new task -->
  <div class="modal fade" id="modaAddNewTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
     <form id="formAddNewTask" action="{{ route('admin.task.store') }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
         <div class="modal-content">
         <div class="modal-header">
@@ -203,7 +207,7 @@
 </div>
 <!---  end modal aa new task -->
  <div class="modal fade" id="modalPreview" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl  modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id=modalPreviewLabel">Preview</h5>
@@ -612,6 +616,18 @@
 
         }
 
+        const AutoScrol = () => {
+            setTimeout(() => {
+                let modalBody = $('.modal-body');
+                let lastRow = $('#taskWrapper .task-item').last();
+                if (lastRow.length) {
+                    modalBody.animate({
+                        scrollTop: lastRow[0].offsetTop
+                    }, 300);
+                }
+            }, 100);
+        }
+
 
         //initSelect2();
 
@@ -690,12 +706,17 @@
             //$('.select2nodal').select2(settingSelect2);
             initSelect2();
             initDatePicker();
+
+           AutoScrol();
+            
+
         });
 
 
 
         $(document).on('click', '.removeRow', function () {
             $(this).closest('.task-item').remove();
+            AutoScrol();
          });
 
 
