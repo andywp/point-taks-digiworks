@@ -490,10 +490,23 @@
             success: function(response) {
                 let select = $('#brand_ids');
                 select.empty();
-                $.each(response.brands, function(index, brand) {
+               /*  $.each(response.brands, function(index, brand) {
                     let selected = response.selected.includes(brand.id)
                         ? 'selected'
                         : '';
+                    select.append(`
+                        <option value="${brand.id}" ${selected}>
+                            ${brand.brand}
+                        </option>
+                    `);
+                }); */
+                $.each(response.brands, function(index, brand) {
+                    let selected = response.selected
+                        .map(String)
+                        .includes(String(brand.id))
+                            ? 'selected'
+                            : '';
+
                     select.append(`
                         <option value="${brand.id}" ${selected}>
                             ${brand.brand}
