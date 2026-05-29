@@ -283,17 +283,6 @@
                         type: "POST" ,
                         dataType: 'json',
                         complete : function (response) {
-                            $("table.dataTable a").each(function() {
-                                    let current = $(this).attr('href');
-                                    $(this).attr('href',generateURL(current));
-                            });
-
-                            $("table.dataTable form").each(function() {
-                                    let current = $(this).attr('action');
-                                    $(this).attr('action',generateURL(current));
-                            });
-
-                            // return response;
                         }               
                     },
                     columns: [
