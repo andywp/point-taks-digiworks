@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('header_title','User Management')
 @section('styles')
-<link rel="stylesheet" type="text/css" href="../src/bootstrap-duallistbox.css">
 <link href="{{asset('assets/vendor/bootstrap-duallistbox/src/bootstrap-duallistbox.css')}}" rel="stylesheet">
 <style>
     #datamentor td:nth-child(7),
