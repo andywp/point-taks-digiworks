@@ -7,6 +7,8 @@ use App\Models\Brand;
 use App\Models\MasterTask;
 use App\Models\TaskPoint;
 
+use App\Models\AdminBrand;
+
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 
@@ -15,17 +17,24 @@ class CreativeController extends Controller
 {
     public function index(){
 
-        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $notIn=$this->notIN();
+        //dd($notIn);
+        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
         $master=MasterTask::where('status',1)->orderBy('pekerjaan','asc')->get();
         return view('creative.task.index',compact('master','brand'));
     }
 
-    public function create(){
+    private function notIN(){
+        $id=(int) auth('admin')->user()->id;
+        return AdminBrand::where('admin_id',$id)->pluck('brand_id');
+    }
+
+    /* public function create(){
         $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
         $master=MasterTask::where('status',1)->orderBy('pekerjaan','ASC')->get();
         //dd($master);
         return view('creative.task.create',compact('brand','master'));
-    }
+    } */
 
     public function store(Request $request){
         $admin_id=auth('admin')->user()->id;
@@ -79,7 +88,8 @@ class CreativeController extends Controller
             return abort(404);
         }
         //dd($data);
-        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $notIn=$this->notIN();
+        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
         $master=MasterTask::where('status',1)->orderBy('pekerjaan','ASC')->get();
         //dd($master);
         return view('creative.task.edit',compact('data','brand','master'));
@@ -170,7 +180,7 @@ class CreativeController extends Controller
         return redirect()->back()->with('success','Successfully Delete');
     }
 
-    public function syncTask(){
+    /* public function syncTask(){
         $data=TaskPoint::get();
         foreach($data as $r){
             $pointMaster=MasterTask::where('id',$r->master_tasks_id)->value('point_per_10');
@@ -181,6 +191,6 @@ class CreativeController extends Controller
 
         dd($data);
 
-    }
+    } */
 
 }

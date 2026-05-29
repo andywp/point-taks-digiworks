@@ -12,6 +12,9 @@ use DataTables;
 use \App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+use App\Models\AdminBrand;
+use App\Models\Brand;
+
 class UserManagement extends Controller
 {
     public function index(){
@@ -56,12 +59,27 @@ class UserManagement extends Controller
                     data-username  ="'.$row->username.'"
                     
                     data-bs-toggle="tooltip"  data-original-title="Edit"  class="password btn btn-info shadow btn-xs  me-1" >Change</button>';
-                }) 
+                })
+                ->addColumn('admin_brand', function($row){
+                    if($row->role == 'Creative'){
+                        return '<button type="button"  data-id="'.$row->id.'"   data-name="'.$row->name.'"   data-bs-toggle="tooltip"  data-original-title="Brand Managemebt"  class="btn btn-brand btn-success shadow btn-xs  me-1" >Brand</button>';
+                    }else{
+                        return '';
+                    }
+                })
+                ->addColumn('brand', function($row){
+                    if($row->role != 'Creative'){
+                        return '';
+                    }
+                    $brandID=AdminBrand::where('admin_id',$row->id)->pluck('brand_id');
+                    $brand=Brand::whereIn('id',$brandID)->orderBy('brand','ASC')->pluck('brand')->implode(' ,');
+                    return $brand;
+                 })
                 /* ->editColumn('active', function($row) {
                     $checked=($row->active == 1)?'checked':'';
                     return'<input type="checkbox" name="publish" value="1" '.$checked.' data-id="'.$row->id.'" class="togglepublish"  data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="xs" data-width="70">';
                 }) */
-                ->rawColumns(['action','active','password'])   //merender content column dalam bentuk html
+                ->rawColumns(['action','active','password','admin_brand'])   //merender content column dalam bentuk html
                 ->escapeColumns()  //mencegah XSS Attack
                 ->orderColumn('name',function ($query, $order) {
                     $query->orderBy('id', $order);
@@ -150,4 +168,33 @@ class UserManagement extends Controller
         return redirect()->route('admin.user.index')
                 ->with('success','Delete successfully');
     }
+
+    public function brand(Request $request){
+        $id=(int) $request->userID;
+        $notIN=AdminBrand::where('admin_id','<>',$id)->pluck('brand_id');
+        $brand=Brand::whereNotIN('id',$notIN)->orderBy('brand','ASC')->get(['id', 'brand']);
+        $selected=AdminBrand::where('admin_id',$id)->pluck('brand_id');
+        //dd($id,$selected);
+
+        return response()->json([
+            'brands' => $brand,
+            'selected' => $selected
+        ]);
+    }
+
+    public function brand_brand(Request $request){
+        $brands = array_unique($request->brand ?? []);
+        $user_id= $request->id;
+        AdminBrand::where('admin_id',$user_id)->delete();
+        //dd($request->all(),$brands);
+        foreach($brands as $r){
+            AdminBrand::create([
+                                'admin_id' =>  $user_id,
+                                'brand_id' =>  $r,
+                                ]);
+        }
+
+        return redirect()->back()->with('success','Successfully manage brand');
+    }
+
 }

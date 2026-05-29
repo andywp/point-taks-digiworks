@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Manajerial;
+use App\Models\AdminBrand;
 
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
@@ -13,15 +14,21 @@ use Illuminate\Support\Carbon;
 class ManajerialController extends Controller
 {
     public function index(){
-        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $notIn=$this->notIN();
+        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
         return view('creative.manajerial.index',compact('brand'));
     }
 
-    public function create(){
+    private function notIN(){
+        $id=(int) auth('admin')->user()->id;
+        return AdminBrand::where('admin_id',$id)->pluck('brand_id');
+    }
+
+    /* public function create(){
         $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
         //dd($master);
         return view('creative.manajerial.create',compact('brand'));
-    }
+    } */
 
     public function store(Request $request){
         $admin_id=auth('admin')->user()->id;
@@ -77,7 +84,7 @@ class ManajerialController extends Controller
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <input type="hidden" name="_method" value="DELETE">
                                 <div class="d-flex">
-                                    <a href="'.route('admin.task.edit',$row->id).'" data-id="'.$row->id.'" data-toggle="tooltip"  data-original-title="Edit" class="edit btn btn-primary shadow btn-xs sharp me-1" ><i class="fas fa-pencil-alt"></i></a>
+                                   
                                     <button  type="button" data-id="'.$row->id.'" data-name="'.$row->pekerjaan.'" data-toggle="tooltip"  data-original-title="Delete" class="delete btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>
                                 <div>
                             </form>

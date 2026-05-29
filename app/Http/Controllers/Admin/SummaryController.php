@@ -10,6 +10,7 @@ use App\Models\Admin;
 use App\Models\Brand;
 use App\Models\TaskPoint;
 use App\Models\MasterTask;
+use App\Models\AdminBrand;
 
 use App\Models\Manajerial;
 use Yajra\DataTables\DataTables;
@@ -126,6 +127,11 @@ class SummaryController extends Controller
                     $color=!empty($row->masterTask->color)?'class="badge light '.$row->masterTask->color.'"':'';
                     return '<span '.$color.' >'.$row->masterTask->pekerjaan.'</span>';
                 })
+                /* ->addColumn('teknis', function($row){
+                    dd($row->brand->id);
+                    $brandID=AdminBrand::where('brand_id',$row->brand->id)->pluck('admin_id');
+                    return Admin::where('role','Creative')->whereIn('id',$brandID)->pluck('name')->implode(', ');
+                 }) */
                 ->addColumn('action', function($row){  
                     //dd($row);
                     $btn = '
@@ -242,6 +248,7 @@ class SummaryController extends Controller
                     'point_manajerial' => $point_manajerial,
                     'point_total' => $total_point,
                     'value_point' => setRupiah($value_point,2),
+                    'teknis' => $this->getTeknis($r->id),
                 // 'value_point' => $value_point,
                 ];
             }
@@ -249,6 +256,12 @@ class SummaryController extends Controller
 
         $data=collect($data);
         return DataTables::of($data)->make(true);
+    }
+
+
+    private function getTeknis($id){
+        $brandID=AdminBrand::where('brand_id',$id)->pluck('admin_id');
+        return Admin::where('role','Creative')->whereIn('id',$brandID)->pluck('name')->implode(', ');
     }
     
     public function cekGaji(){

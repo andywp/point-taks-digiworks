@@ -80,6 +80,7 @@
                                 <th>Point Manajerial</th>
                                 <th>Total Point</th>
                                 <th>Value Point</th>
+                                <th>Teknis</th>
                             </tr>
                         </thead>
                         
@@ -163,7 +164,12 @@
                             data : 'value_point',
                             className: "text-end",
                             width: "50px"
-                        }  
+                        },
+                        {
+                            data : 'teknis',
+                            className: "text-end",
+                            width: "50px"
+                        } 
                     ],
                     fnDrawCallback : function() {
                         $('.togglepublish').bootstrapToggle();

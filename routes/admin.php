@@ -39,6 +39,12 @@ Route::prefix('dw-admin')
             Route::post('/password',[App\Http\Controllers\Admin\UserManagement::class,'password'])->name('password');
             Route::post('/publish',[App\Http\Controllers\Admin\UserManagement::class,'publish'])->name('publish');
             Route::delete('/{id}/delete',[App\Http\Controllers\Admin\UserManagement::class,'destroy'])->name('destroy');
+
+            Route::post('brand',[App\Http\Controllers\Admin\UserManagement::class,'brand'])->name('brand');
+
+            Route::post('brand_update',[App\Http\Controllers\Admin\UserManagement::class,'brand_brand'])->name('brand_update');
+
+            //Route::get('{id}/brand', [App\Http\Controllers\Admin\UserManagement::class, 'brand'])->name('brand');
         });
 
         Route::prefix('summary')->name('summary.')->group(function () {

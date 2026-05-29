@@ -1,7 +1,17 @@
 @extends('layouts.app')
 @section('header_title','User Management')
 @section('styles')
-
+<link rel="stylesheet" type="text/css" href="../src/bootstrap-duallistbox.css">
+<link href="{{asset('assets/vendor/bootstrap-duallistbox/src/bootstrap-duallistbox.css')}}" rel="stylesheet">
+<style>
+    #datamentor td:nth-child(7),
+#datamentor th:nth-child(7) {
+    width: 20%;
+    max-width: 20%;
+    white-space: normal !important;   /* bikin teks turun */
+    word-break: break-word;           /* pecah kata panjang */
+}
+</style>
 @endsection
 @section('content')
 <div class="row">
@@ -40,6 +50,8 @@
                                     <th>Role</th>
                                     <th>Gaji</th>
                                     <th>password </th>
+                                    <th>Brand</td>
+                                    <th></th>
                                     <th>#</th>
                                 </tr>
                             </thead>
@@ -188,9 +200,40 @@
         </div>
     </div>
 
+<!-- modal Brand -->
+ <div class="modal fade" id="formBrand" tabindex="-1" aria-labelledby="brandLabel" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form id="formManageBrand" action="{{ route('admin.user.brand_update') }}" class="needs-validation" method="POST" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="brandLabelpassword">Brand user : <span id="brandUSer" ></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label  class="form-label">Brand</label>
+                        <select id="brand_ids" name="brand[]"  class="form-control form-select" multiple="multiple" require>
+                           
+                        </select>
+                        <span class="text-danger Editerror-input" id="typeErrorEdit"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @csrf
+                    <input type="hidden" name="id" id="brand_user_id" value="" >
+                    <button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-md btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 
 @endsection
 @section('scripts')
+<script src="{{asset('assets/vendor/bootstrap-duallistbox/src/jquery.bootstrap-duallistbox.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $.ajaxSetup({
@@ -198,6 +241,21 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        /* $('#formManageBrand').on('submit', function(){
+
+            console.log(
+                $(this).serializeArray()
+            );
+            return false;
+        }); */
+
+       /*  var demo2 = $('#dualist').bootstrapDualListbox({
+                        nonSelectedListLabel: 'Brand Tersedia',
+                        selectedListLabel: 'Brand Dipilih',
+                        preserveSelectionOnMove: 'moved',
+                        moveOnSelect: false
+                    }); */
 
         let loadData=()=>{
         if (! $.fn.dataTable.isDataTable('#datamentor') ) {
@@ -262,7 +320,15 @@
                             orderable: false, 
                             searchable: false,
                             width: "80"
-                        },                                
+                        },
+                        {
+                            data: 'brand',
+                            width: "80px"                                    
+                        }, 
+                        {
+                            data: 'admin_brand',
+                            width: "80px"                                    
+                        },                               
                         {
                             data: 'action',
                             className: "text-center",
@@ -371,6 +437,7 @@
     });
 
 
+
     /** aja password */
     //formeditpassword
     $("#formeditpassword").submit(function( event ) {
@@ -421,6 +488,59 @@
                 }
         });
         return false;
+    });
+
+
+    const LoadBrandData = (adminId) => {
+        $.ajax({
+            url: "{{ route('admin.user.brand') }}",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                userID: adminId
+            },
+            success: function(response) {
+                let select = $('#brand_ids');
+                select.empty();
+                $.each(response.brands, function(index, brand) {
+                    let selected = response.selected.includes(brand.id)
+                        ? 'selected'
+                        : '';
+                    select.append(`
+                        <option value="${brand.id}" ${selected}>
+                            ${brand.brand}
+                        </option>
+                    `);
+                });
+                select.bootstrapDualListbox('refresh', true);
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+
+        /* formBrand */
+    var dualListbox = $('#brand_ids').bootstrapDualListbox({
+        nonSelectedListLabel: 'Brand Tersedia',
+        selectedListLabel: 'Brand Dipilih',
+        preserveSelectionOnMove: 'moved',
+        moveOnSelect: false,
+        filterPlaceHolder: 'Cari Brand',
+        infoText: 'Menampilkan {0}',
+        infoTextEmpty: 'Data kosong',
+        selectorMinimalHeight: 250
+    });
+
+    $('#datamentor').on('click', '.btn-brand', function (){
+        let userID= $(this).data('id');
+        //console.log(userID,'userID');
+        LoadBrandData(userID);
+        $('#formBrand').modal('show');
+        $('#brandUSer').html($(this).data('name'));
+        $('#brand_user_id').val($(this).data('id'));
+
+        event.preventDefault();
     });
 
     
