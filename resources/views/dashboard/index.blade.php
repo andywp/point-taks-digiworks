@@ -222,7 +222,7 @@
 						y: 1044,
 						borderColor: '#f72b50',
 						label: {
-							text: 'Minggu 3 1044 point',
+							text: 'Minggu 4 1044 point',
 							style: {
 								background: '#f72b50',
 								color: '#fff'
