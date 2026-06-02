@@ -37,7 +37,7 @@
 									class="form-control"
 									placeholder="Pilih Bulan & Tahun"
 									autocomplete="off"
-									value="2026-01"
+									value="{{ $periode }}"
 								>
 							</div>
 						</div>
