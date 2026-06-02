@@ -171,8 +171,9 @@ class UserManagement extends Controller
 
     public function brand(Request $request){
         $id=(int) $request->userID;
-        $notIN=AdminBrand::where('admin_id','<>',$id)->pluck('brand_id');
-        $brand=Brand::whereNotIN('id',$notIN)->orderBy('brand','ASC')->get(['id', 'brand']);
+        //$notIN=AdminBrand::where('admin_id','<>',$id)->pluck('brand_id');
+        //$brand=Brand::whereNotIN('id',$notIN)->orderBy('brand','ASC')->get(['id', 'brand']);
+        $brand=Brand::orderBy('brand','ASC')->get(['id', 'brand']);
         $selected=AdminBrand::where('admin_id',$id)->pluck('brand_id');
         //dd($id,$selected);
 
