@@ -91,7 +91,7 @@ function FormatAngkaBadge($price,$decimal=0,$prefix=''){
 }
 
 
-function Bulan(){
+function Bulan($value){
     $bulan = [
         '01' => 'Januari',
         '02' => 'Februari',
@@ -107,7 +107,7 @@ function Bulan(){
         '12' => 'Desember'
     ];
 
-    return $bulan;
+    return $bulan[$value];
 }
 
 function getLastDay($data){

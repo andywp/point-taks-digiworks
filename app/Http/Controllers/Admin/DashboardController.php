@@ -13,40 +13,43 @@ use \Meta;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         Meta::title('Dashboard');
-
         $now = Carbon::now();
-        $bulan=$now->month;
-        $year=$now->year;
-        
+        $periode=($request->periode != '')?$request->periode:$now->format('Y-m');
+        $periodeArr=explode('-',$periode);
+        $year=$periodeArr[0];
+        $bulan=$periodeArr[1];
+
+        //dd($bulan,$year);
+
         $role=auth('admin')->user()->role;
     
             if($role != 'Creative'){
-            $user=Admin::where('role','Creative')->orderBy('name','ASC')->get();
-            //dd($user);
-            $data=array();
-            $karyawan=array();
-            $pointTask=array();
-            $pointMajarerial=array();
-            $total_point=array();
-            foreach($user as $r){
-                $karyawan[]=$r->name;
-                $point_teknis=TaskPoint::where('admin_id',$r->id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('point');
-                $point_manajerial=Manajerial::where('admin_id',$r->id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('poin');
+                $user=Admin::where('role','Creative')->orderBy('name','ASC')->get();
+                //dd($user);
+                $data=array();
+                $karyawan=array();
+                $pointTask=array();
+                $pointMajarerial=array();
+                $total_point=array();
+                foreach($user as $r){
+                    $karyawan[]=$r->name;
+                    $point_teknis=TaskPoint::where('admin_id',$r->id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('point');
+                    $point_manajerial=Manajerial::where('admin_id',$r->id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('poin');
 
-                $pointTask[]=$point_teknis;
-                $pointMajarerial[]= $point_manajerial;
-                $total_point[]=$point_teknis + $point_manajerial;
-            }
-            $data=[
-                'user' => $karyawan,
-                'pointTask' => $pointTask,
-                'pointMajarerial' => $pointMajarerial,
-                'total_point' => $total_point
-            ];
-           // dd($data);
-            return view('dashboard.index', compact('data'));
+                    $pointTask[]=$point_teknis;
+                    $pointMajarerial[]= $point_manajerial;
+                    $total_point[]=$point_teknis + $point_manajerial;
+                }
+                $data=[
+                    'user' => $karyawan,
+                    'pointTask' => $pointTask,
+                    'pointMajarerial' => $pointMajarerial,
+                    'total_point' => $total_point
+                ];
+                // dd($data);
+             return view('dashboard.index', compact('data','periode','bulan','year'));
         }else{
             $data=array();
             $admin_id=auth('admin')->user()->id;

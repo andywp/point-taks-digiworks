@@ -25,20 +25,22 @@
             <div class="col-xl-12">
                 <div class="card " id="user-activity">
                     <div class="card-header border-0 pb-0 flex-wrap">
-                        <h4 class="card-title mb-0">Point Stats this Month</h4>
-                        <div class="mt-3 mt-sm-0">
-                            <!-- <ul class="nav nav-tabs vacany-tabs style-1" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link " data-bs-toggle="tab" data-series="Daily" href="#Daily" role="tab">Daily</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " data-bs-toggle="tab" data-series="Weekly" href="#Weekly" role="tab">Weekly</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" data-series="Monthly" href="#Monthly" role="tab">Monthly</a>
-                                </li>
-                            </ul> -->
-                        </div>
+                        <h4 class="card-title mb-0">Point Stats {{ Bulan($bulan) }} {{ $year }}</h4>
+                        <div class="ms-auto">
+							<div class="input-group">
+								<span class="input-group-text">
+									<i class="bi bi-calendar-month"></i>
+								</span>
+								<input 
+									type="text" 
+									id="periode" 
+									class="form-control"
+									placeholder="Pilih Bulan & Tahun"
+									autocomplete="off"
+									value="2026-01"
+								>
+							</div>
+						</div>
                     </div>
                     <div class="card-body pt-3 px-sm-3 px-0 pb-1">
                         <div class="pb-sm-4 mb-3 d-flex flex-wrap px-3">
@@ -259,6 +261,28 @@
 	}
 
     chartBar();
+
+	const setDate = "{{ date('Y-m') }}";
+	//console.log(setDate);
+    const today = new Date();
+    $('#periode').datepicker({
+        format: "yyyy-mm",
+        startView: "months",
+        minViewMode: "months",
+        autoclose: true,
+        startDate: new Date(2026, 4, 1),
+        //endDate: today
+    });
+    //.datepicker('setDate', setDate);
+
+	$('#periode').on('change', function() {
+		let homeURLadmin= "{{ route('admin.home') }}";
+		let value = $(this).val();
+		//alert(value);
+
+		window.location.href = homeURLadmin+`?periode=`+value;
+	});
+
 
     })(jQuery);
 </script>
