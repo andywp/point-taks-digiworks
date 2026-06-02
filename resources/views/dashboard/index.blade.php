@@ -262,7 +262,7 @@
 
     chartBar();
 
-	const setDate = "{{ date('Y-m') }}";
+	const setDate = "{{ $periode}}";
 	//console.log(setDate);
     const today = new Date();
     $('#periode').datepicker({
