@@ -96,6 +96,7 @@
                                 <th>Brand</th>
                                 <th>Nama</th>
                                 <th>task</th>
+                                <th>Ket</th>
                                 <th>Output</th>
                                 <th>Point</th>
                             </tr>
@@ -169,6 +170,9 @@
                         },                                
                         {
                             data: 'master_task.pekerjaan',   
+                        },
+                        {
+                            data: 'note',   
                         },
                         {
                             data : 'output',
