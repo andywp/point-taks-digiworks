@@ -97,7 +97,7 @@
                                 <th>Brand</th>
                                 <th>User</th>
                                 <th>Job</th>
-                                <th>Persentase</th>
+                                <th>Menit</th>
                                 <th>Point</th>
                             </tr>
                         </thead>
@@ -172,7 +172,7 @@
                             width: "40%"
                         },                                
                         {
-                            data : 'persentase',
+                            data : 'menit',
                             className: "text-end",
                             width: "50px"
                         },   

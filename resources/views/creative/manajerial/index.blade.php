@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('header_title','Manajerial')
 @section('styles')
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
     #kt_table_users td:nth-child(3),
 #kt_table_users th:nth-child(3) {
@@ -80,7 +81,7 @@
                         <select class="form-control select2  @error('brand') is-invalid @enderror" name="brand">
                             <option value="" >Pilih</option>
                             @foreach($brand as $r)
-                                <option value="{{ $r->id }}" >{{ $r->brand }}</option>
+                                <option value="{{ $r->id }}" {{ (old('brand') == $r->id )?'selected':'' }} >{{ $r->brand }}</option>
                             @endforeach
                         </select>
                         @error('brand')
@@ -106,9 +107,9 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">Persentase</label>
-                        <input type="number" name="persentase" class="form-control form-control-sm @error('persentase') is-invalid @enderror" value="{{ old('persentase') }}">
-                        @error('persentase')
+                        <label class="form-label">Menit</label>
+                        <input type="number" name="menit" class="form-control form-control-sm @error('menit') is-invalid @enderror" value="{{ old('menit') }}">
+                        @error('menit')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -142,7 +143,7 @@
                                 <th>Tanggal</th>
                                 <th>Brand</th>
                                 <th class="w-50">Job</th>
-                                <th>Persentase</th>
+                                <th>Menit</th>
                                 <th>Point</th>
                                 <th>#</th>
                             </tr>
@@ -224,7 +225,7 @@
                             
                         },
                         {
-                            data : 'persentase',
+                            data : 'menit',
                             width: "50px"
                         },
                         {

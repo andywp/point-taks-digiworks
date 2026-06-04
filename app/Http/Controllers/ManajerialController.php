@@ -37,14 +37,14 @@ class ManajerialController extends Controller
             'brand'=> 'required',
             'job'=> 'required',
             'tanggal'=> 'required',
-            'persentase' => 'required|numeric|min:1',
+            'menit' => 'required|numeric|min:1',
         ]);
 
         $admin_id=auth('admin')->user()->id;
 
        
 
-        $point= round(($request->persentase / 100) * 522);
+        $point= round($request->menit / 10,1);
         // dd($request->all(),$point);
     
         Manajerial::create([
@@ -52,7 +52,7 @@ class ManajerialController extends Controller
             'brand_id' =>  $request->brand,
             'tanggal' =>  $request->tanggal,
             'job' =>  $request->job,
-            'persentase' =>  $request->persentase,
+            'menit' =>  $request->menit,
             'poin' =>  $point,
             
         ]);

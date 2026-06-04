@@ -63,7 +63,7 @@
         @else
         <ul class="metismenu" id="menu">
             <li>
-                <a href="{{ route('admin.home') }} class="" aria-expanded="false">
+                <a href="{{ route('admin.home') }}" class=" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
                     <span class="nav-text">Home</span>
                 </a>
