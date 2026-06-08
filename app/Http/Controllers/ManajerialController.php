@@ -80,7 +80,7 @@ class ManajerialController extends Controller
                 })
                 ->addColumn('action', function($row){  
                     $btn = '
-                            <form id="fd'.$row->id.'" action="'.route('admin.task.destroy',$row->id).'" method="POST">
+                            <form id="fd'.$row->id.'" action="'.route('admin.manajerial.destroy',$row->id).'" method="POST">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <input type="hidden" name="_method" value="DELETE">
                                 <div class="d-flex">
@@ -96,5 +96,10 @@ class ManajerialController extends Controller
                 ->toJson();
         
         }
+    }
+
+    public function destroy($id){
+        Manajerial::find($id)->delete();
+        return redirect()->back()->with('success','Successfully Delete');
     }
 }
