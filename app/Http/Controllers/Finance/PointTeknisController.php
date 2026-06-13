@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Models\Brand;
 use App\Models\MasterTask;
 use App\Models\TaskPoint;
 
 use App\Models\AdminBrand;
-
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 
 
-class CreativeController extends Controller
+class PointTeknisController extends Controller
 {
     public function index(){
 
         $notIn=$this->notIN();
         //dd($notIn);
-        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
-        $master=MasterTask::where('status',1)->where('devisi','Creative')->orderBy('pekerjaan','asc')->get();
-        return view('creative.task.index',compact('master','brand'));
+        //$brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $master=MasterTask::where('status',1)->where('devisi','Finance')->orderBy('pekerjaan','asc')->get();
+        return view('finance.task.index',compact('master','brand'));
     }
 
     private function notIN(){
@@ -29,24 +31,8 @@ class CreativeController extends Controller
         return AdminBrand::where('admin_id',$id)->pluck('brand_id');
     }
 
-    /* public function create(){
-        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
-        $master=MasterTask::where('status',1)->orderBy('pekerjaan','ASC')->get();
-        //dd($master);
-        return view('creative.task.create',compact('brand','master'));
-    } */
-
     public function store(Request $request){
         $admin_id=auth('admin')->user()->id;
-        //dd($request->all());
-        //dd($admin_id);
-       /*  $request->validate([
-            'brand'=> 'required',
-            'pekerjaan'=> 'required',
-            'tanggal'=> 'required',
-            'output' => 'required|numeric|min:1',
-        ]); */
-
         $brand = $request->brand;
         $pekerjaan = $request->pekerjaan;
         $tanggal = $request->tanggal;
@@ -74,8 +60,6 @@ class CreativeController extends Controller
                 'note' =>  $note[$i],
             ]);
         }
-
-
         
         return redirect()->back()->with('success','Successfully added task');
     }
@@ -83,17 +67,18 @@ class CreativeController extends Controller
     public function edit($id){
         $id=(int) $id;
         $admin_id=auth('admin')->user()->id;
-        $data=TaskPoint::where('id',$id)->where('admin_id',$admin_id)->first();
 
+        $data=TaskPoint::where('id',$id)->where('admin_id',$admin_id)->first();
         if(!$data){
             return abort(404);
         }
         //dd($data);
         $notIn=$this->notIN();
-        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
-        $master=MasterTask::where('status',1)->where('devisi','Creative')->orderBy('pekerjaan','ASC')->get();
+        //$brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $master=MasterTask::where('status',1)->orderBy('pekerjaan','ASC')->get();
         //dd($master);
-        return view('creative.task.edit',compact('data','brand','master'));
+        return view('finance.task.edit',compact('data','brand','master'));
 
     }
 
@@ -158,11 +143,11 @@ class CreativeController extends Controller
                 })
                 ->addColumn('action', function($row){  
                     $btn = '
-                            <form id="fd'.$row->id.'" action="'.route('creative.task.destroy',$row->id).'" method="POST">
+                            <form id="fd'.$row->id.'" action="'.route('finance.task.destroy',$row->id).'" method="POST">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <input type="hidden" name="_method" value="DELETE">
                                 <div class="d-flex">
-                                    <a href="'.route('creative.task.edit',$row->id).'" data-id="'.$row->id.'" data-toggle="tooltip"  data-original-title="Edit" class="edit btn btn-primary shadow btn-xs sharp me-1" ><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="'.route('finance.task.edit',$row->id).'" data-id="'.$row->id.'" data-toggle="tooltip"  data-original-title="Edit" class="edit btn btn-primary shadow btn-xs sharp me-1" ><i class="fas fa-pencil-alt"></i></a>
                                     <button  type="button" data-id="'.$row->id.'" data-name="'.$row->pekerjaan.'" data-toggle="tooltip"  data-original-title="Delete" class="delete btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>
                                 <div>
                             </form>
@@ -180,18 +165,4 @@ class CreativeController extends Controller
         TaskPoint::find($id)->delete();
         return redirect()->back()->with('success','Successfully Delete');
     }
-
-    /* public function syncTask(){
-        $data=TaskPoint::get();
-        foreach($data as $r){
-            $pointMaster=MasterTask::where('id',$r->master_tasks_id)->value('point_per_10');
-            //dd($r, $pointMaster);
-            $point=$pointMaster * $r->output;
-            TaskPoint::where('id',$r->id)->update(['point' => $point ]);
-        }
-
-        dd($data);
-
-    } */
-
 }

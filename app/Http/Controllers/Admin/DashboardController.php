@@ -33,6 +33,7 @@ class DashboardController extends Controller
                 $pointTask=array();
                 $pointMajarerial=array();
                 $total_point=array();
+                $UnderPoint=array();
                 foreach($user as $r){
                     $karyawan[]=$r->name;
                     $point_teknis=TaskPoint::where('admin_id',$r->id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('point');
@@ -40,13 +41,23 @@ class DashboardController extends Controller
 
                     $pointTask[]=$point_teknis;
                     $pointMajarerial[]= $point_manajerial;
-                    $total_point[]=$point_teknis + $point_manajerial;
+                    $total_point[]=$myPoint=$point_teknis + $point_manajerial;
+
+                    if($myPoint > 1044){
+                        $total_over_point = $myPoint - 1044;
+                        $UnderPoint[]='<span class="badge badge-success light">+ '.$total_over_point.'</span>';
+                    }else{
+                        $pint_html= 1044 - $myPoint;
+                        $UnderPoint[]='<span class="badge badge-danger light">- '.$pint_html.'</span>';
+                    }
+
                 }
                 $data=[
                     'user' => $karyawan,
                     'pointTask' => $pointTask,
                     'pointMajarerial' => $pointMajarerial,
-                    'total_point' => $total_point
+                    'total_point' => $total_point,
+                    'under_point' => $UnderPoint
                 ];
                 // dd($data);
              return view('dashboard.index', compact('data','periode','bulan','year'));

@@ -1,7 +1,12 @@
 @extends('layouts.app')
 @section('header_title','Dashboard')
 @section('styles')
-
+<style>
+	#chartBar .apexcharts-canvas,
+	#chartBar .apexcharts-svg {
+		overflow: visible !important;
+	}
+</style>
 @endsection
 @section('content')
 
@@ -109,7 +114,7 @@
 			],
 			chart: {
 				type: 'bar',
-				height: 400,
+				height: 500,
 				
 				toolbar: {
 					show: false,
@@ -165,9 +170,13 @@
 					drawBorder: true
 				},
 			  	labels: {
+					/* formatter: function(value, timestamp) {
+						//const index = opts.i;
+						return value + '\n(OP: wkwkw)';
+					}, */
 					style: {
 						colors: '#787878',
-						fontSize: '13px',
+						fontSize: '12px',
 						fontFamily: 'poppins',
 						fontWeight: 100,
 						cssClass: 'apexcharts-xaxis-label',
@@ -257,7 +266,50 @@
 			};
 
 			var chartBar1 = new ApexCharts(document.querySelector("#chartBar"), options);
-			chartBar1.render();
+			//chartBar1.render();
+			chartBar1.render().then(() => {
+
+				const labels = document.querySelectorAll(
+					'#chartBar .apexcharts-xaxis-texts-g text'
+				);
+
+				
+
+				labels.forEach((label, index) => {
+
+					console.log(index);
+					console.log(data.total_point);
+					console.log(data.total_point[index]);
+
+					const x = label.getAttribute('x');
+					const y = label.getAttribute('y');
+
+					const user = data.user[index];
+					const overPoint = data.under_point[index];
+
+					const html = `
+						<foreignObject
+							x="${x-35}"
+							y="${parseInt(y)+5}"
+							width="100"
+							height="50">
+							<div xmlns="http://www.w3.org/1999/xhtml"
+								style="text-align:center;font-size:12px">
+								<div>${user}</div>
+									${overPoint}
+							</div>
+						</foreignObject>
+					`;
+
+					label.style.display = 'none';
+
+					label.parentNode.insertAdjacentHTML(
+						'beforeend',
+						html
+					);
+				});
+
+			});
 	}
 
     chartBar();

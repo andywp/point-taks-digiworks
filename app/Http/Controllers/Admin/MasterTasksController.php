@@ -17,6 +17,7 @@ class MasterTasksController extends Controller
     public function store(Request $request){
         $request->validate([
             'pekerjaan'=> 'required',
+            'devisi'=> 'required',
             'point_type'=> 'required|in:0,1',
             'point' => 'required|numeric|min:1',
         ]);
@@ -28,6 +29,7 @@ class MasterTasksController extends Controller
         $input['per_hari']=$request->point;
         $input['per_bulan']=0;
         $input['color']=$request->color;
+        $input['devisi']=$request->devisi;
 
         $point_per_10=0.1 * $request->point;
 
@@ -101,6 +103,7 @@ class MasterTasksController extends Controller
     public function update($id, Request $request){
         $request->validate([
             'pekerjaan'=> 'required',
+            'devisi'=> 'required',
             'point_type'=> 'required|in:0,1',
             'point' => 'required|numeric|min:1',
         ]);
@@ -120,6 +123,7 @@ class MasterTasksController extends Controller
         $input['color']=$request->color;
         $point_per_10=0.1 * $request->point;
         $input['point_per_10']=$point_per_10;
+        $input['devisi']=$request->devisi;
         /* if($request->point_type == 0){
             $input['per_hari']=$request->point;
             $menit_per_output=$this->potinHarian($request->point);

@@ -56,9 +56,22 @@ class LoginController extends Controller
         //$creds = $request->only($field,'password');
         $remember=isset($request->remember)?true:false;
         if(Auth::guard('admin')->attempt($creds, $remember) ){
-            //dd('ok');
-            Session::flash('message', 'Selamat datang kembali '.auth('admin')->user()->name); 
-            return redirect()->route('admin.home');
+           Session::flash('message', 'Selamat datang kembali '.auth('admin')->user()->name); 
+           
+            $role=Auth::guard('admin')->user()->role;
+            switch ($role) {
+                case 'Creative':
+                    return redirect()->route('creative.home');
+                    break;
+
+                case 'Finance':
+                    return redirect()->route('finance.home');
+                    break;
+
+                default:
+                    return redirect()->route('admin.home');
+            }
+
         }else{
             return redirect()->route('login')->withErrors('Incorrect credentials');
         }

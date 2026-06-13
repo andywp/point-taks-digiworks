@@ -6,7 +6,7 @@
                     <img src="{!! get_gravatar() !!}" alt="">
                     <div class="d-flex align-items-center sidebar-info">
                         <div>
-                            <span class="font-w400 d-block">{{ auth('admin')->user()?->name }}</span>
+                            <span class="font-w400 d-block">{{ ucwords(auth('admin')->user()?->name) }}</span>
                             <small class="text-end font-w400">{{ auth('admin')->user()?->role  }}</small>
                         </div>	
                         <i class="fas fa-chevron-down"></i>
@@ -60,22 +60,43 @@
                 </ul>
             </li>
         </ul>
+        @elseif(auth('admin')->user()?->role == 'Finance' )
+            <ul class="metismenu" id="menu">
+                <li>
+                    <a href="{{ route('finance.home') }}" class=" aria-expanded="false">
+                        <i class="flaticon-025-dashboard"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('finance.task.index') }}" class="" aria-expanded="false">
+                        <i class="flaticon-381-edit"></i>
+                        <span class="nav-text">Point Teknis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('finance.manajerial.index') }}" class="" aria-expanded="false">
+                        <i class="flaticon-381-folder"></i>
+                        <span class="nav-text">Point Manajerial</span>
+                    </a>
+                </li>
+            </ul>
         @else
         <ul class="metismenu" id="menu">
             <li>
-                <a href="{{ route('admin.home') }}" class=" aria-expanded="false">
+                <a href="{{ route('creative.home') }}" class=" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
                     <span class="nav-text">Home</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.task.index') }}" class="" aria-expanded="false">
+                <a href="{{ route('creative.task.index') }}" class="" aria-expanded="false">
                     <i class="flaticon-381-edit"></i>
                     <span class="nav-text">Point Teknis</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.manajerial.index') }}" class="" aria-expanded="false">
+                <a href="{{ route('creative.manajerial.index') }}" class="" aria-expanded="false">
                     <i class="flaticon-381-folder"></i>
                     <span class="nav-text">Point Manajerial</span>
                 </a>

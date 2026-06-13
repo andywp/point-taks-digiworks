@@ -166,3 +166,11 @@ body[data-theme-version="light"] .brand-title{
     position: sticky;
     top: 0;
 }   
+
+[data-theme-version="dark"] .nav-header{
+  background-color: #212130 !important;
+}
+
+[data-theme-version="dark"] .dlabnav{
+  background-color: #212130 !important;
+}

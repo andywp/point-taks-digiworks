@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Models\Brand;
 use App\Models\Manajerial;
 use App\Models\AdminBrand;
@@ -10,13 +12,13 @@ use App\Models\AdminBrand;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 
-
 class ManajerialController extends Controller
 {
     public function index(){
         $notIn=$this->notIN();
-        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
-        return view('creative.manajerial.index',compact('brand'));
+        //$brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        return view('finance.manajerial.index',compact('brand'));
     }
 
     private function notIN(){
@@ -80,11 +82,10 @@ class ManajerialController extends Controller
                 })
                 ->addColumn('action', function($row){  
                     $btn = '
-                            <form id="fd'.$row->id.'" action="'.route('creative.manajerial.destroy',$row->id).'" method="POST">
+                            <form id="fd'.$row->id.'" action="'.route('finance.manajerial.destroy',$row->id).'" method="POST">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '" />
                                 <input type="hidden" name="_method" value="DELETE">
                                 <div class="d-flex">
-                                   
                                     <button  type="button" data-id="'.$row->id.'" data-name="'.$row->pekerjaan.'" data-toggle="tooltip"  data-original-title="Delete" class="delete btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>
                                 <div>
                             </form>

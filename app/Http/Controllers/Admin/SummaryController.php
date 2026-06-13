@@ -40,27 +40,20 @@ class SummaryController extends Controller
             $point_teknis = TaskPoint::where('admin_id',$r->id)->whereBetween('tanggal',[$start, $end])->sum('point');
             $point_manajerial = Manajerial::where('admin_id',$r->id)->whereBetween('tanggal',[$start, $end])->sum('poin');
             $UnderPoint=0;
-            /* if($total > 1044){
-                $UnderPoint=$total-1044;
-            } */
-
-            /* $manajerial_under=0;
-            if($totalMajerial > 1044){
-                $manajerial_under=$totalMajerial-1044;
-            } */
-
-            /* $takeHomePay=0;
-            $global=$UnderPoint + $manajerial_under;
-            if($global > 0){
-                $takeHomePay=($r->gaji / 1044) * $global; 
-            } */
-           
             $total_poin=$point_teknis + $point_manajerial;
             
             $total_over_point=0;
             if($total_poin > 1044){
                 $total_over_point = $total_poin - 1044;
+                $total_over_point_html='<span class="badge badge-success light">+ '.$total_over_point.'</span>';
+            }else{
+
+                $pint_html=1044 - $total_poin;
+                $total_over_point_html='<span class="badge badge-danger light">- '.$pint_html.'</span>';
             }
+
+
+            
 
             $take_home_pay=$r->gaji;
             if($total_over_point > 0){
@@ -75,7 +68,7 @@ class SummaryController extends Controller
                 'point_teknis' => $point_teknis,
                 'point_manajerial' => $point_manajerial,
                 'total_poin' => $total_poin,
-                'total_over_point' => $total_over_point,
+                'total_over_point' => $total_over_point_html,
                 'take_home_pay' => setRupiah($take_home_pay,2)
             ];
             
@@ -83,10 +76,8 @@ class SummaryController extends Controller
         
         $data=collect($data);
         return DataTables::of($data)
-                   /*  ->addColumn('status', function ($row) {
-                        return $row['umur'] > 27 ? 'Tua' : 'Muda';
-                    }) */
-                    ->make(true);
+                ->rawColumns(['total_over_point']) 
+                ->make(true);
     }
 
 

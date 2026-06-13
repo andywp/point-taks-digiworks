@@ -2,13 +2,13 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('dw-admin')
-    //->middleware(['web'])
+    ->middleware(['auth:admin','checkRole:Developer,Admin'])
     ->as('admin.')
     ->group(function () {
 
       Route::get('/',[App\Http\Controllers\Admin\DashboardController::class,'index'])->name('home');
      
-      Route::middleware('checkRole:Developer,Admin,Creative')->group(function () {
+      //Route::middleware('checkRole:Developer,Admin,Creative')->group(function () {
         Route::prefix('master-task')->name('master_task.')->group(function (){
           Route::get('/',[App\Http\Controllers\Admin\MasterTasksController::class,'index'])->name('index');
           Route::post('store',[App\Http\Controllers\Admin\MasterTasksController::class,'store'])->name('store');
@@ -65,11 +65,11 @@ Route::prefix('dw-admin')
        
 
 
-      });
+      //});
 
       /***--------------------------------------- */
       /*************USER */
-      Route::middleware('checkRole:Creative')->group(function (){
+     /*  Route::middleware('checkRole:Creative')->group(function (){
         Route::prefix('task')->name('task.')->group(function (){
           Route::get('/', [App\Http\Controllers\CreativeController::class, 'index'])->name('index');
           Route::get('create', [App\Http\Controllers\CreativeController::class, 'create'])->name('create');
@@ -90,6 +90,6 @@ Route::prefix('dw-admin')
           Route::delete('/{id}/delete',[App\Http\Controllers\ManajerialController::class,'destroy'])->name('destroy');
         });
 
-      });
+      }); */
 
 });

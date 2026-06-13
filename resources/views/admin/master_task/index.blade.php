@@ -38,9 +38,10 @@
                             <tr>
                                 <th>#</th>
                                 <th>Pekerjaan</th>
+                                <th>Devisi</th>
                                <!--  <th>Per hari</th>
                                 <th>Per Bulan</th> -->
-                                <th>Output</th>
+                                <th>Menit</th>
                                 <th>Point / Output</th>
                             </tr>
                         </thead>
@@ -75,6 +76,14 @@
                         @error('pekerjaan')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label  class="form-label">Devisi</label>
+                        <select name="devisi"   class="form-control form-select @error('point') is-invalid @enderror">
+                            <option value="">Pilih</option>
+                            <option value="Creative"  {{ (old('devisi') == 'Creative' )?'selected':'' }}>Creative</option>
+                            <option value="Finance" {{ (old('devisi') == 'Finance' )?'selected':'' }}>Finance</option>
+                        </select>
                     </div>
                     <!-- <div class="mb-3">
                         <label class="form-label">Type Nilai</label>
@@ -178,6 +187,11 @@
                     data : 'pekerjaan',
                     name: 'pekerjaan',
                     width: "50%"
+                },
+                {
+                    data : 'devisi',
+                    name: 'devisi',
+                    width: "50px" 
                 },
                /*  {
                     data : 'per_hari',

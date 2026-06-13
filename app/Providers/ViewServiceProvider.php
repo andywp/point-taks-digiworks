@@ -35,7 +35,7 @@ class ViewServiceProvider extends ServiceProvider
             $year=$now->year;
            // dd($user);
             $htmlPoint='';
-            if($user->role == 'Creative'){
+            if(in_array($user->role,['Creative','Finance'])){
                 $point_teknis=TaskPoint::where('admin_id',$userID)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('point');
                 $point_manajerial=Manajerial::where('admin_id',$userID)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('poin');
                 $totalPoint=$point_teknis + $point_manajerial;

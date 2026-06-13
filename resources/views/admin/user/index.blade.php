@@ -106,6 +106,7 @@
                             <option value="">Pilih</option>
                             <option value="Admin">Admin</option>
                             <option value="Creative">Creative</option>
+                            <option value="Finance">Finance</option>
                             
                         </select>
                         <span class="text-danger error-input" id="roleError"></span>
@@ -156,8 +157,9 @@
                     <div class="mb-3">
                         <label  class="form-label">Type</label>
                         <select name="role" id="role" class="form-control form-select" require>
-                            <option value="Creative">Creative</option>
                             <option value="Admin">Admin</option>
+                            <option value="Creative">Creative</option>
+                            <option value="Finance">Finance</option>
                         </select>
                         <span class="text-danger Editerror-input" id="typeErrorEdit"></span>
                     </div>

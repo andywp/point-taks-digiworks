@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('header_title','Task')
+@section('header_title','Point Teknis')
 @section('styles')
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 @endsection
@@ -19,8 +19,8 @@
     </ul>
 </div>
 @endif
-<h4 class="card-title mb-3" >Edit Task</h4>
-<form action="{{ route('creative.task.update',$data->id) }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
+<h4 class="card-title mb-3" >Edit Point Teknis</h4>
+<form action="{{ route('finance.task.update',$data->id) }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
     <div class="row">
         <div class="col-xl-12">
             <div class="card h-auto">
@@ -78,7 +78,7 @@
                         @csrf
                         @method('PUT')
                         <button type="submit" class="btn btn-outline-primary  mx-3">Save Update</button>
-                        <a  href="{{ route('creative.task.index') }}" class="btn btn-outline-danger " >Back</a>
+                        <a  href="{{ route('finance.task.index') }}" class="btn btn-outline-danger " >Back</a>
                     </div>
 
                 </div>

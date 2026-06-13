@@ -15,21 +15,22 @@ class CheckRole
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
         //jika akun yang login sesuai dengan role 
         //maka silahkan akses
         //jika tidak sesuai akan diarahkan ke home
+        $admin = $request->user('admin');
+        if (!$admin) {
+            abort(403);
+        }
+        //dd($admin->role);
+        //$roles = array_slice(func_get_args(), 2);
 
-        $roles = array_slice(func_get_args(), 2);
-
-        foreach ($roles as $role) { 
-            $user = auth('admin')->user()->role ?? null;
-            if( $user == $role){
-                return $next($request);
-            }
+        if (!in_array($admin->role, $roles)) {
+            abort(403, 'Anda tidak memiliki akses');
         }
 
-        return abort(403, 'Akses tidak diijinkan.');
+        return $next($request);
     }
 }

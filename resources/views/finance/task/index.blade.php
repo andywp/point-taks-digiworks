@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('header_title','Task')
+@section('header_title','Point Teknis')
 @section('styles')
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
@@ -138,7 +138,7 @@
 <!-- modal add new task -->
  <div class="modal fade" id="modaAddNewTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-xl">
-    <form id="formAddNewTask" action="{{ route('creative.task.store') }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
+    <form id="formAddNewTask" action="{{ route('finance.task.store') }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="modaAddNewTaskLabel">Add New Task</h5>
@@ -309,7 +309,7 @@
                         }
                     },
                     ajax: {
-                        url: "{{route('creative.task.data')}}",
+                        url: "{{route('finance.task.data')}}",
                         type: "POST",
                         dataType: 'json',
                         data: {

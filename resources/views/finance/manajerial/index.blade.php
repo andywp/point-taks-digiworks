@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <form action="{{ route('creative.manajerial.store') }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
+        <form action="{{ route('finance.manajerial.store') }}" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
         <div class="card h-auto">
             <div class="card-header">
                 <h4 class="card-title mb-0">Add New</h4>
@@ -202,7 +202,7 @@
                         }
                     },
                     ajax: {
-                        url:"{{route('creative.manajerial.data')}}",
+                        url:"{{route('finance.manajerial.data')}}",
                         type: "POST" ,
                         dataType: 'json',
                         data:{tanggal:tanggal,task:task,user:user,brand,brand}        
