@@ -28,7 +28,7 @@
     <div class="col-xl-12">
         <div class="row">
             <div class="col-xl-12">
-                <div class="card " id="user-activity">
+                <div class="card mb-3" id="user-activity">
                     <div class="card-header border-0 pb-0 flex-wrap">
                         <h4 class="card-title mb-0">Point Stats {{ Bulan($bulan) }} {{ $year }}</h4>
                         <div class="ms-auto">
@@ -72,10 +72,37 @@
                             <div id="chartBar" class="chartBar"></div>
                         </div>
                     </div>
+					<div class="card-footer">
+						<div class="py-3 text-center">
+						Creative Total Point <b>{{ $report['Creative_total'] }}</b> {!! $report['Creative_report']  !!}
+						</div>
+					</div>
                 </div>
             </div>
         </div>
     </div>
+	<!-- <div class="col-xl-12">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card mb-3">0
+                    <div class="card-body">
+                        <table class="table display mb-4 dataTablesCard job-table table-responsive-xl card-table dataTable no-footer">
+							<thead>
+								<th>Devisi</th>
+								<th>Total Point</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Creative</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
     
 </div>
 

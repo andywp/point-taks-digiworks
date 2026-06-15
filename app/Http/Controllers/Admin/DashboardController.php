@@ -34,6 +34,7 @@ class DashboardController extends Controller
                 $pointMajarerial=array();
                 $total_point=array();
                 $UnderPoint=array();
+
                 foreach($user as $r){
                     $karyawan[]=$r->name;
                     $point_teknis=TaskPoint::where('admin_id',$r->id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$year)->sum('point');
@@ -52,15 +53,27 @@ class DashboardController extends Controller
                     }
 
                 }
+
+                $total_creative_point=array_sum($total_point);
+                $total_All_Creative_point=count($total_point) * 1044;
+                $global_under_point_creativ=($total_creative_point > $total_All_Creative_point)?'<span class="badge badge-success light">+ '.($total_creative_point - $total_All_Creative_point ).'</span>':'<span class="badge badge-danger light">- '.($total_All_Creative_point - $total_creative_point ).'</span>';
+                
+                $report=array();
+                $report['Creative_total']= $total_creative_point;
+                $report['Creative_target']= $total_All_Creative_point;
+                $report['Creative_report']= $global_under_point_creativ;
+                //dd($report);
+
                 $data=[
                     'user' => $karyawan,
                     'pointTask' => $pointTask,
                     'pointMajarerial' => $pointMajarerial,
                     'total_point' => $total_point,
-                    'under_point' => $UnderPoint
+                    'under_point' => $UnderPoint,
+                    //'report' => $report,
                 ];
                 // dd($data);
-             return view('dashboard.index', compact('data','periode','bulan','year'));
+             return view('dashboard.index', compact('data','periode','bulan','year','report'));
         }else{
             $data=array();
             $admin_id=auth('admin')->user()->id;
