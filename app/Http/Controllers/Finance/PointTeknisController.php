@@ -13,6 +13,8 @@ use App\Models\AdminBrand;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 
+use App\Models\BrandFinance;
+
 
 class PointTeknisController extends Controller
 {
@@ -20,15 +22,15 @@ class PointTeknisController extends Controller
 
         $notIn=$this->notIN();
         //dd($notIn);
-        //$brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
-        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
+        //$brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
         $master=MasterTask::where('status',1)->where('devisi','Finance')->orderBy('pekerjaan','asc')->get();
         return view('finance.task.index',compact('master','brand'));
     }
 
     private function notIN(){
-        $id=(int) auth('admin')->user()->id;
-        return AdminBrand::where('admin_id',$id)->pluck('brand_id');
+        //$id=(int) auth('admin')->user()->id;
+        return BrandFinance::pluck('brand_id')->toArray();
     }
 
     public function store(Request $request){

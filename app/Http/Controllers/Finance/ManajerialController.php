@@ -12,18 +12,22 @@ use App\Models\AdminBrand;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 
+use App\Models\BrandFinance;
+
+
 class ManajerialController extends Controller
 {
     public function index(){
         $notIn=$this->notIN();
-        //$brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
-        $brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
+        $brand=Brand::where('status',1)->whereIn('id',$notIn)->orderBy('brand','ASC')->get();
+        //$brand=Brand::where('status',1)->orderBy('brand','ASC')->get();
         return view('finance.manajerial.index',compact('brand'));
     }
 
     private function notIN(){
-        $id=(int) auth('admin')->user()->id;
-        return AdminBrand::where('admin_id',$id)->pluck('brand_id');
+        /* $id=(int) auth('admin')->user()->id;
+        return AdminBrand::where('admin_id',$id)->pluck('brand_id'); */
+        return BrandFinance::pluck('brand_id')->toArray();
     }
 
     /* public function create(){

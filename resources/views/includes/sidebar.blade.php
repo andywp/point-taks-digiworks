@@ -56,6 +56,7 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.master_task.index') }}">Master Task</a></li>
                     <li><a href="{{ route('admin.brand.index') }}">Brand</a></li>
+                    <li><a href="{{ route('admin.setting.finance_brand') }}">Brand Finance</a></li>
                     <li><a href="{{ route('admin.user.index') }}">User Management</a></li>
                 </ul>
             </li>

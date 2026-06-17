@@ -62,6 +62,11 @@ Route::prefix('dw-admin')
           Route::get('cekgaji', [App\Http\Controllers\Admin\SummaryController::class, 'cekGaji'])->name('getGajiDevisi');
         });
 
+        Route::prefix('setting')->name('setting.')->group(function (){
+            Route::get('finance-brand', [App\Http\Controllers\Admin\BrandFinanceController::class, 'index'])->name('finance_brand');
+            Route::post('finance-brand/save', [App\Http\Controllers\Admin\BrandFinanceController::class, 'update'])->name('finance_brand_save');
+        });
+
        
 
 
