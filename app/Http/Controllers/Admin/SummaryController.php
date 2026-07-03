@@ -222,10 +222,13 @@ class SummaryController extends Controller
         $total_gaji=$total_devisi['total_take_home_pay'];
         $total_point_devisi=$total_devisi['total_point'];
 
+        $Creative=Admin::where('role','Creative')->pluck('id')->toArray();
+        //dd($Creative);
+
         foreach($bands as $r){
 
-            $point_teknis=TaskPoint::where('brand_id',$r->id)->whereBetween('tanggal',[$start, $end])->sum('point');
-            $point_manajerial=Manajerial::where('brand_id',$r->id)->whereBetween('tanggal',[$start, $end])->sum('poin');
+            $point_teknis=TaskPoint::where('brand_id',$r->id)->whereIn('admin_id',$Creative)->whereBetween('tanggal',[$start, $end])->sum('point');
+            $point_manajerial=Manajerial::where('brand_id',$r->id)->whereIn('admin_id',$Creative)->whereBetween('tanggal',[$start, $end])->sum('poin');
             $total_point=$point_teknis + $point_manajerial;
 
             if( $total_point > 0){
