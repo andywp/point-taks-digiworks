@@ -89,7 +89,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="kt_table_users" class="display responsive nowrap w-100">
+                    <table id="kt_table_users" class="display nowrap w-100">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
