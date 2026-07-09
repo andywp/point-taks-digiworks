@@ -84,7 +84,16 @@
             <div class="card-header">
                 <h4 class="card-title mb-0">Summary</h4>
                 <div class="ms-auto">
-                   
+                    <form action="{{ route('admin.summary.summary_user_export') }}" method="POST">
+                        @csrf
+                        <input id="export_task" type="hidden" name="task" value="">
+                        <input id="export_user" type="hidden" name="user" value="">
+                        <input id="export_brand" type="hidden" name="brand" value="">
+                        <input id="export_tanggal" type="hidden" name="tanggal" value="">
+                        <button  type="submit" class="btn btn-outline-primary btn-sm">
+                                <i class="far fa-file-excel"></i> Export
+                            </button>
+                    </form>
                 </div>
             </div>
             <div class="card-body">
@@ -131,6 +140,11 @@
             let task = $('#task').val();
             let user = $('#user').val();
             let brand = $('#brand').val();
+
+            $('#export_task').val(task);
+            $('#export_user').val(user);
+            $('#export_brand').val(brand);
+            $('#export_tanggal').val(tanggal);
 
             var tbl = $('#kt_table_users').DataTable({
                     pageLength: 10,
@@ -193,12 +207,14 @@
             }
         }
 
-
+        //$('#export_tanggal').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
 
         function cb(start, end) {
            $('.reportrange').val(
                 start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY')
             );
+
+            //$('#export_tanggal').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
         }
         $('.reportrange').daterangepicker({
             startDate: start,

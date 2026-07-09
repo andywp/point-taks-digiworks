@@ -52,6 +52,7 @@ Route::prefix('dw-admin')
           Route::post('data', [App\Http\Controllers\Admin\SummaryController::class, 'data'])->name('data');
           Route::get('user', [App\Http\Controllers\Admin\SummaryController::class, 'user'])->name('user');
           Route::post('summary-user', [App\Http\Controllers\Admin\SummaryController::class, 'data_summary_user'])->name('data_summary_user');
+          Route::post('user/export', [App\Http\Controllers\Admin\SummaryController::class, 'data_summary_user_export_excel'])->name('summary_user_export');
 
           Route::get('brand', [App\Http\Controllers\Admin\SummaryController::class, 'by_brand'])->name('brand');
           Route::post('brand-data', [App\Http\Controllers\Admin\SummaryController::class, 'by_brand_data'])->name('brand_data');

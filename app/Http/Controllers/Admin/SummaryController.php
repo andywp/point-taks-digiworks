@@ -15,6 +15,9 @@ use App\Models\AdminBrand;
 use App\Models\Manajerial;
 use Yajra\DataTables\DataTables;
 
+use App\Exports\UserSummary;
+use Maatwebsite\Excel\Facades\Excel;
+
 class SummaryController extends Controller
 {
     public function index(Request $request){
@@ -146,6 +149,14 @@ class SummaryController extends Controller
 
 
         }
+    }
+
+    public function data_summary_user_export_excel(Request $request){
+         
+            return Excel::download(
+                        new UserSummary($request),
+                        'user-summary_'.Carbon::now()->format('ymdhis').'.xlsx'
+                    )->deleteFileAfterSend(false);
     }
 
 
