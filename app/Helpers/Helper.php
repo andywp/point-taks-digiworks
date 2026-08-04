@@ -100,7 +100,7 @@ function Bulan($value){
         '05' => 'Mei',
         '06' => 'Juni',
         '07' => 'Juli',
-        '09' => 'Agustus',
+        '08' => 'Agustus',
         '09' => 'September',
         '10' => 'Oktober',
         '11' => 'November',
